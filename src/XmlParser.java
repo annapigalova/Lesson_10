@@ -29,13 +29,14 @@ public class XmlParser {
 				sb.append(line.trim());
 				System.out.println(line);
 			}
+			System.out.println(line);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
-		System.out.println(line);
+
 		return line;
 
 	}
