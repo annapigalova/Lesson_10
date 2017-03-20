@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,18 +17,20 @@ public class XmlParser {
 	}
 
 	public String parseXml() {
+
 		String line = "";
 		File file = new File(filename);
+		StringBuilder sb = new StringBuilder();
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 
-			StringBuilder sb = new StringBuilder();
-
 			while ((line = br.readLine()) != null) {
 				sb.append(line.trim());
-				System.out.println(line);
+
 			}
-			System.out.println(line);
+
+			line = sb.toString();
 
 		} catch (Exception e) {
 
@@ -37,7 +38,20 @@ public class XmlParser {
 
 		}
 
-		return line;
+		final String regex = "<([^<>]+)>([^<>]+)</\\1>";
+		final Pattern pattern = Pattern.compile(regex);
+		final Matcher matcher = pattern.matcher(line);
+		StringBuilder xmlSb = new StringBuilder();
+
+		while (matcher.find()) {
+			for (int i = 1; i <= matcher.groupCount(); i++) {
+				xmlSb.append(matcher.group(i));
+			}
+		}
+
+		String xmlString = xmlSb.toString();
+
+		return xmlString;
 
 	}
 
